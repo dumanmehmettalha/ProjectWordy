@@ -1,1 +1,2 @@
 C:\Users\duman\OneDrive\Belgeler\GitHub\ProjectWordy\x64\Debug\ProjectWordy.exe
+C:\Users\kocam\OneDrive\Belgeler\GitHub\ProjectWordy\x64\Debug\ProjectWordy.exe

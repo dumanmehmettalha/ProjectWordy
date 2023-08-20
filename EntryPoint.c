@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+#include "Functions.h"
 
-void deleteData(char word[15]) {
+// TALHA ARKADAÞIMIN YORUM SATIRI 20.08.2023-23:42
+
+/*void deleteData(char word[15]) {
 	FILE* fp = fopen("deneme.txt", "r+"); //r+ modunda dosya açýldý çünkü baþtan sona bakýlýp silinmek istenen kelime bulunacak ve üzerine boþluk yazýlacak.
 	char temp[15];
 	long int pos;
@@ -27,4 +30,9 @@ int main() {
 	printf("Enter a word you want to delete:  ");
 	scanf("%s", word);
 	deleteData(word);
+}*/
+
+int main() {
+	Execute();
+	return 0;
 }
