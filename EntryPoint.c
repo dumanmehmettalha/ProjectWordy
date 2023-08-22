@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "Functions.h"
+//#include <locale.h>
 
-// The Project Wordy
 
 int main() {
 	Execute();
