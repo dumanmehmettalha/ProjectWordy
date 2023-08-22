@@ -1,6 +1,1 @@
-﻿  EntryPoint.c
-C:\Users\kocam\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(16,11): warning C4477: 'scanf_s' : format string '%s' requires an argument of type 'unsigned int', but variadic argument 2 has type 'unsigned __int64'
-C:\Users\kocam\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(16,11): message : this argument is used as a buffer size
-C:\Users\kocam\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(16,11): warning C4477: 'scanf_s' : format string '%s' requires an argument of type 'unsigned int', but variadic argument 4 has type 'unsigned __int64'
-C:\Users\kocam\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(16,11): message : this argument is used as a buffer size
-  ProjectWordy.vcxproj -> C:\Users\kocam\OneDrive\Belgeler\GitHub\ProjectWordy\x64\Debug\ProjectWordy.exe
+﻿  ProjectWordy.vcxproj -> C:\Users\duman\OneDrive\Belgeler\GitHub\ProjectWordy\x64\Debug\ProjectWordy.exe
