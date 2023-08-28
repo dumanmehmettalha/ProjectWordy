@@ -2,6 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <Windows.h>
+#define BLUE 1
+#define GREEN 2
+#define LIGHT_BLUE 3
+#define RED 4
+#define PURPLE 5
+#define YELLOW 6
+#define WHITE 7
+#define GRAY 8
+
+void SetConsoleTextColor(int color) {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, color);
+}
 
 void HideTheFile() {
 	const char* filePath = "Wordy.txt";
@@ -34,7 +47,7 @@ void AddWord() {
 
 	FILE* filePointer = NULL; // Dosya structýndan pointer oluþturuyoruz ve initialize edioruz. 
 	fopen_s(&filePointer, "Wordy.txt", "a+"); // fopen fonksiyonuna bu pointerýn adresini, dosya adýný ve tipini yolluyoruz.
-	
+	SetConsoleTextColor(5);
 	if (filePointer == NULL) {	// Memoryde boþ yer olmadýðý bir anda dosya açýlamayabilir. Ve pointer hata olarak NULL döndürür. Kullanýcýya bunu söylemek ve bazý fonksiyonlarýn kullanýmýnda hata almamak için bu condition kontrol edilir.
 		puts("\nFile could not be opened./\\Dosya acilamadi.");
 	}
@@ -42,6 +55,7 @@ void AddWord() {
 		char newWordEnglish[15];
 		char newWordTurkish[15];
 		printf("\n%s", "Enter the english word first and then the turkish translate of it.\n");
+		SetConsoleTextColor(YELLOW);
 		scanf_s("%s %s", newWordEnglish, _countof(newWordEnglish), newWordTurkish, _countof(newWordTurkish)); // scanf_s hatasýz kullanýmý
 
 		fprintf(filePointer, "%s - %s", newWordEnglish, newWordTurkish);
@@ -60,6 +74,7 @@ void DeleteData(int val) {
 	char line[100];
 	char tLine[100];
 	int counter = 0, i = 0;
+	SetConsoleTextColor(6);
 	if (err != 0 || err2 != 0) {
 		printf("%s", "\nFile could not be opened.");
 		return;
@@ -73,6 +88,8 @@ void DeleteData(int val) {
 		}
 
 	}
+	SetConsoleTextColor(7);
+	printf("The line you have selected is deleted.\n");
 	fclose(fp);
 	fclose(temp);
 	remove("Wordy.txt");
@@ -83,8 +100,7 @@ void ShowFile() {
 
 	FILE* fp;
 	int counter = 0;
-
-
+	SetConsoleTextColor(1);
 	errno_t err = fopen_s(&fp, "Wordy.txt", "r"); // Okunacak dosyanýn adýný doðru þekilde belirtin
 	if (err != 0) {
 		printf("%s", "\nFile could not be opened.");
@@ -98,12 +114,16 @@ void ShowFile() {
 	fclose(fp);
 }
 
+
 void Instructions(int* userInput)
 {	
+	SetConsoleTextColor(2);
 	printf("\n%s", "If you want to enter a word to program press 1,\nBir kelime eklemek istiyorsaniz 1 giriniz,\n\n");
 	printf("%s", "If you want to delete a word from program press 2,\nBir kelime silmek istiyorsaniz 2 giriniz,\n\n");
 	printf("%s", "If you want to see all of the words press 3,\nProgramdaki tum kelimeleri gormek istiyorsaniz 3 giriniz,\n\n");
-	printf("%s", "If you want to terminate the program press 4\nProgrami sonlandirmak istiyorsaniz 4 giriniz,\n\nChoice/Secim: ");
+	printf("%s", "If you want to terminate the program press 4\nProgrami sonlandirmak istiyorsaniz 4 giriniz,\n\n");
+	SetConsoleTextColor(7);
+	printf("Choice/Secim: ");
 	scanf_s("%d", userInput);
 
 }
@@ -124,6 +144,7 @@ void Execute() {
 			userInput = 0;
 			break;
 		case 2:
+			SetConsoleTextColor(3);
 			printf("Enter line number you want to delete:  ");
 			scanf_s("%d", &val);
 			DeleteData(val);
@@ -136,10 +157,14 @@ void Execute() {
 			userInput = 0;
 			break;
 		case 4:
+			SetConsoleTextColor(4);
 			printf("%s", "\nSee you again./Gorusuruz.\n");
+			SetConsoleTextColor(WHITE);
 			break;
 		default:
+			SetConsoleTextColor(4);
 			printf("%s", "\nInvalid Choise!/\\Hatali Secim!\n");
+			SetConsoleTextColor(WHITE);
 			userInput = 4;
 			break;
 		}

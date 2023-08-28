@@ -2,3 +2,4 @@ add - eklemek
 put - koymak
 file - dosya
 exit - áçkçü
+truck - kamyon
