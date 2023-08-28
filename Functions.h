@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <locale.h>
-
+#include <Windows.h>
 void AddWord() {
 
 	FILE* filePointer = NULL; // Dosya structýndan pointer oluþturuyoruz ve initialize edioruz. 
@@ -30,9 +29,11 @@ void AddWord() {
 		c = 0;
 		while ((c = getchar()) != "\n" && c != EOF) { break; }*/
 
-		fprintf(filePointer, "%s-%s", newWordEnglish, newWordTurkish);
+		fprintf(filePointer, "%s - %s", newWordEnglish, newWordTurkish);
 		fprintf(filePointer, "\n");
 		fclose(filePointer);
+	
+		SetFileAttributes("Wordy.txt", FILE_ATTRIBUTE_HIDDEN);
 	}
 }
 
@@ -70,6 +71,7 @@ void DeleteData(char word[15]) {
 void ShowFile() {
 
 	FILE* fp;
+	int counter = 0;
 
 
 	errno_t err = fopen_s(&fp, "Wordy.txt", "r"); // Okunacak dosyanýn adýný doðru þekilde belirtin
@@ -80,19 +82,19 @@ void ShowFile() {
 
 	char line[100]; // Bir satýrýn maksimum uzunluðunu belirtin
 	while (fgets(line, sizeof(line), fp) != NULL) {
-		printf("%s", line);
+		printf("%d - %s", ++counter,line);
 	}
 	fclose(fp);
 }
 
 void Instructions(int* userInput)
 {	
-//	setlocale(LC_ALL, ".utf8");
-	printf("\n%s", "If you want to enter a word to program press 1,\nBir kelime eklemek istiyorsanýz 1 giriniz,\n\n");
-	printf("%s", "If you want to delete a word from program press 2,\nBir kelime silmek istiyorsanýz 2 giriniz,\n\n");
-	printf("%s", "If you want to see all of the words press 3,\nProgramdaki tüm kelimeleri görmek istiyorsanýz 3 giriniz,\n\n");
-	printf("%s", "If you want to terminate the program press 4\nProgramý sonlandýrmak istiyorsanýz 4 giriniz,\n\nChoice/Seçim: ");
+	printf("\n%s", "If you want to enter a word to program press 1,\nBir kelime eklemek istiyorsaniz 1 giriniz,\n\n");
+	printf("%s", "If you want to delete a word from program press 2,\nBir kelime silmek istiyorsaniz 2 giriniz,\n\n");
+	printf("%s", "If you want to see all of the words press 3,\nProgramdaki tum kelimeleri gormek istiyorsaniz 3 giriniz,\n\n");
+	printf("%s", "If you want to terminate the program press 4\nProgrami sonlandirmak istiyorsaniz 4 giriniz,\n\nChoice/Secim: ");
 	scanf_s("%d", userInput);
+
 }
 
 
