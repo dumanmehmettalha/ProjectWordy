@@ -1,2 +1,4 @@
-congrats - tebriks
 add - eklemek
+put - koymak
+file - dosya
+exit - áçkçü

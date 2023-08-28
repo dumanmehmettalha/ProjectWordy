@@ -2,6 +2,34 @@
 #include <stdlib.h>
 #include <string.h>
 #include <Windows.h>
+
+void HideTheFile() {
+	const char* filePath = "Wordy.txt";
+	HANDLE fileHandle = CreateFileA(filePath, GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (fileHandle == INVALID_HANDLE_VALUE) {
+		perror("CreateFile failed");
+		return 1;
+	}
+
+	FILE_BASIC_INFO fileInfo;
+	GetFileInformationByHandleEx(fileHandle, FileBasicInfo, &fileInfo, sizeof(fileInfo));
+
+	fileInfo.FileAttributes |= FILE_ATTRIBUTE_HIDDEN;
+
+	if (!SetFileInformationByHandle(fileHandle, FileBasicInfo, &fileInfo, sizeof(fileInfo))) {
+		perror("SetFileInformationByHandle failed");
+		CloseHandle(fileHandle);
+		return 1;
+	}
+
+	CloseHandle(fileHandle);
+
+	//printf("File hidden successfully.\n");
+}
+
 void AddWord() {
 
 	FILE* filePointer = NULL; // Dosya structýndan pointer oluþturuyoruz ve initialize edioruz. 
@@ -15,57 +43,40 @@ void AddWord() {
 		char newWordTurkish[15];
 		printf("\n%s", "Enter the english word first and then the turkish translate of it.\n");
 		scanf_s("%s %s", newWordEnglish, _countof(newWordEnglish), newWordTurkish, _countof(newWordTurkish)); // scanf_s hatasýz kullanýmý
-		
-
-		// BUNUNLA ÝLGÝLENMEM GEREKLÝ ! 
-		/*gets_s(newWordEnglish, sizeof(newWordEnglish));
-
-		int c = 0;
-		while ((c = getchar()) != "\n" && c != EOF) { break; }
-
-		printf("Turkish Word:");
-		gets_s(newWordTurkish, 15);
-		
-		c = 0;
-		while ((c = getchar()) != "\n" && c != EOF) { break; }*/
 
 		fprintf(filePointer, "%s - %s", newWordEnglish, newWordTurkish);
 		fprintf(filePointer, "\n");
 		fclose(filePointer);
 	
-		SetFileAttributes("Wordy.txt", FILE_ATTRIBUTE_HIDDEN);
 	}
 }
 
-void DeleteData(char word[15]) {
+void DeleteData(int val) {
 
-	FILE* fp;  //r+ modunda dosya açýldý çünkü baþtan sona bakýlýp silinmek istenen kelime bulunacak ve üzerine boþluk yazýlacak.
-	char temp[15];
-	long int pos;
-	errno_t err = fopen_s(&fp, "Wordy.txt", "r+");
-	if (err != 0) {
+	FILE* fp;
+	FILE* temp;
+	errno_t err = fopen_s(&temp,"temp.txt", "w+");  //r+ modunda dosya açýldý çünkü baþtan sona bakýlýp silinmek istenen kelime bulunacak ve üzerine boþluk yazýlacak.
+	errno_t err2 = fopen_s(&fp, "Wordy.txt", "r+");
+	char line[100];
+	char tLine[100];
+	int counter = 0, i = 0;
+	if (err != 0 || err2 != 0) {
 		printf("%s", "\nFile could not be opened.");
 		return;
 	}
 
-	while (!feof(fp)) {
-		fscanf_s(fp, "%s", temp, sizeof(temp));
-		// printf("temp: %s", temp);
-		if (strcmp(temp, word) == 0) {
-			pos = ftell(fp) - strlen(word); // silinecek kelimeden sonraki konum bilgisi ** pos- kelime boyutu yapýlarak kelimenin silineceði konum bulunabilir.
-			//printf("%ld", pos);
-			fseek(fp, pos, SEEK_SET); //imleci dosyanýn baþýndan pos kadar ilerletir.
-			fprintf(fp, "%*s", strlen(temp), "");
-			printf_s("\nThe word you have entered have just deleted.\n");
-			break;
-		}
-	}
-	if (strcmp(temp, word) != 0) 
-	{
-		printf_s("\nThe word you have entered is not in the text file.\n");
-	}
+	while (fgets(line, sizeof(line), fp) != NULL) {
+		counter++;
+		if (counter != val) {
+			fprintf(temp, "%s", line);
 
+		}
+
+	}
 	fclose(fp);
+	fclose(temp);
+	remove("Wordy.txt");
+	rename("temp.txt", "Wordy.txt");
 }
 
 void ShowFile() {
@@ -102,6 +113,7 @@ void Instructions(int* userInput)
 void Execute() {
 	int userInput = 0;
 	char word[15];
+	int val;
 	while (4 != userInput)
 	{
 		Instructions(&userInput);
@@ -112,9 +124,9 @@ void Execute() {
 			userInput = 0;
 			break;
 		case 2:
-			printf("%s", "\nEnter a word you want to delete:  ");
-			scanf_s("%s", word, sizeof(word));
-			DeleteData(word);
+			printf("Enter line number you want to delete:  ");
+			scanf_s("%d", &val);
+			DeleteData(val);
 			userInput = 0;
 			break;
 		case 3:
@@ -132,4 +144,5 @@ void Execute() {
 			break;
 		}
 	}
+	HideTheFile();
 }
