@@ -10,6 +10,12 @@
 #define YELLOW 6
 #define WHITE 7
 #define GRAY 8
+#define LIGHT_GREEN 10
+#define TURKUAZ 11
+#define LIGHT_RED 12
+#define LIGHT_PURPLE 13
+#define LIGHT_YELLOW 14
+#define EX_WHITE 15
 
 void SetConsoleTextColor(int color) {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -47,8 +53,8 @@ void AddWord() {
 
 	FILE* filePointer = NULL; // Dosya structýndan pointer oluþturuyoruz ve initialize edioruz. 
 	fopen_s(&filePointer, "Wordy.txt", "a+"); // fopen fonksiyonuna bu pointerýn adresini, dosya adýný ve tipini yolluyoruz.
-	SetConsoleTextColor(5);
 	if (filePointer == NULL) {	// Memoryde boþ yer olmadýðý bir anda dosya açýlamayabilir. Ve pointer hata olarak NULL döndürür. Kullanýcýya bunu söylemek ve bazý fonksiyonlarýn kullanýmýnda hata almamak için bu condition kontrol edilir.
+		SetConsoleTextColor(RED);
 		puts("\nFile could not be opened./\\Dosya acilamadi.");
 	}
 	else { // Dosya açýldý 
@@ -74,8 +80,8 @@ void DeleteData(int val) {
 	char line[100];
 	char tLine[100];
 	int counter = 0, i = 0;
-	SetConsoleTextColor(6);
 	if (err != 0 || err2 != 0) {
+		SetConsoleTextColor(RED);
 		printf("%s", "\nFile could not be opened.");
 		return;
 	}
@@ -89,6 +95,7 @@ void DeleteData(int val) {
 
 	}
 	SetConsoleTextColor(7);
+	SetConsoleTextColor(RED);
 	printf("The line you have selected is deleted.\n");
 	fclose(fp);
 	fclose(temp);
@@ -100,7 +107,7 @@ void ShowFile() {
 
 	FILE* fp;
 	int counter = 0;
-	SetConsoleTextColor(1);
+	SetConsoleTextColor(TURKUAZ);
 	errno_t err = fopen_s(&fp, "Wordy.txt", "r"); // Okunacak dosyanýn adýný doðru þekilde belirtin
 	if (err != 0) {
 		printf("%s", "\nFile could not be opened.");
@@ -117,20 +124,48 @@ void ShowFile() {
 
 void Instructions(int* userInput)
 {	
-	SetConsoleTextColor(2);
-	printf("\n%s", "If you want to enter a word to program press 1,\nBir kelime eklemek istiyorsaniz 1 giriniz,\n\n");
-	printf("%s", "If you want to delete a word from program press 2,\nBir kelime silmek istiyorsaniz 2 giriniz,\n\n");
-	printf("%s", "If you want to see all of the words press 3,\nProgramdaki tum kelimeleri gormek istiyorsaniz 3 giriniz,\n\n");
-	printf("%s", "If you want to terminate the program press 4\nProgrami sonlandirmak istiyorsaniz 4 giriniz,\n\n");
-	SetConsoleTextColor(7);
-	printf("Choice/Secim: ");
-	scanf_s("%d", userInput);
+	//SetConsoleTextColor(2);
+	//printf("%s", "If you want to enter a word to program press 1,\n");
+	//printf("%s", "Bir kelime eklemek istiyorsaniz 1 giriniz,\n\n");
+	//printf("%s", "If you want to delete a word from program press 2,\n");
+	//printf("%s", "Bir kelime silmek istiyorsaniz 2 giriniz, \n\n");
+	//printf("%s", "If you want to see all of the words press 3,\n");
+	//printf("%s", "Programdaki tum kelimeleri gormek istiyorsaniz 3 giriniz,\n\n");
+	//printf("%s", "If you want to terminate the program press 4\n");
+	//printf("%s", "Programi sonlandirmak istiyorsaniz 4 giriniz, \n\n");
+	//SetConsoleTextColor(7);
+	//printf("Choice/Secim: ");
+	//scanf_s("%d", userInput);
 
+
+	SetConsoleTextColor(GREEN);
+	printf("%s", "1. Add word");
+	SetConsoleTextColor(PURPLE);
+	printf("%s", "    - Kelime ekle\n");
+	SetConsoleTextColor(GREEN);
+	printf("%s", "2. Delete word");
+	SetConsoleTextColor(PURPLE);
+	printf("%s", " - Kelime sil\n");
+	SetConsoleTextColor(GREEN);
+	printf("%s", "3. All words");
+	SetConsoleTextColor(PURPLE);
+	printf("%s", "   - Tum kelimeler\n");
+	SetConsoleTextColor(GREEN);
+	printf("%s", "4. Terminate");
+	SetConsoleTextColor(PURPLE);
+	printf("%s", "   - Sonlandir.\n");
+	SetConsoleTextColor(EX_WHITE);
+	printf("Choice/Secim: ");
+	SetConsoleTextColor(RED);
+	scanf_s("%d", userInput);
 }
 
 
 
 void Execute() {
+
+	SetConsoleTextColor(LIGHT_YELLOW);
+	printf("%s\n", "WELCOME TO THE WORDY!!!");
 	int userInput = 0;
 	char word[15];
 	int val;
