@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <Windows.h>
 #define BLUE 1
 #define GREEN 2
@@ -20,6 +21,62 @@
 void SetConsoleTextColor(int color) {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, color);
+}
+
+int RandomNumber() {
+	int totalWord = TotalWordNumber();
+	int randomNumbers[10] = { 42, 17, 85, 63, 29, 56, 91, 12, 74, 38 };
+	int random = rand() & 9;
+	int randomIndex = 0;
+	randomIndex = randomNumbers[random] * randomNumbers[random];
+	randomIndex = randomIndex * (random + 1);
+	randomIndex = randomIndex - 143;
+	randomIndex = (random + 1) * randomNumbers[random] * 12;
+	randomIndex = randomIndex % totalWord;
+	//int randomIndex = (randomNumbers[random] * 22);
+	//randomIndex = randomIndex / 654;
+	//randomIndex = randomIndex + 222222222;
+	//randomIndex = randomIndex % totalWord;
+	//randomIndex += 1;
+	printf("random : %d randomIndex : %d \n", random, randomIndex);
+	return randomIndex;
+}
+
+int TotalWordNumber() {
+	FILE* fp;
+	int counter = 0;
+	SetConsoleTextColor(TURKUAZ);
+	errno_t err = fopen_s(&fp, "Wordy.txt", "r"); // Okunacak dosyanýn adýný doðru þekilde belirtin
+	if (err != 0) {
+		printf("%s", "\nFile could not be opened.");
+		return 1; // Programý hata kodu ile sonlandýr
+	}
+
+	char line[100]; // Bir satýrýn maksimum uzunluðunu belirtin
+	while (fgets(line, sizeof(line), fp) != NULL) {
+		++counter;
+	}
+	fclose(fp);
+	return counter;
+}
+
+void RandomManager() {
+	int wordIndex = RandomNumber();
+	FILE* fp;
+	int counter = 0;
+	SetConsoleTextColor(TURKUAZ);
+	errno_t err = fopen_s(&fp, "Wordy.txt", "r"); // Okunacak dosyanýn adýný doðru þekilde belirtin
+	if (err != 0) {
+		printf("%s", "\nFile could not be opened.");
+		return 1; // Programý hata kodu ile sonlandýr
+	}
+
+	char line[100]; // Bir satýrýn maksimum uzunluðunu belirtin
+	while (counter < wordIndex) {
+		fgets(line, sizeof(line), fp);
+		printf("%d - %s", ++counter, line);
+	}
+	fclose(fp);
 }
 
 void HideTheFile() {
@@ -49,7 +106,7 @@ void HideTheFile() {
 	//printf("File hidden successfully.\n");
 }
 
-void AddWord() {
+void AddWord() { // KELÝME GÝRÝLÝRKEN BOÞLUK BIRAKINCA PROGRAM PATLIYOR
 
 	FILE* filePointer = NULL; // Dosya structýndan pointer oluþturuyoruz ve initialize edioruz. 
 	fopen_s(&filePointer, "Wordy.txt", "a+"); // fopen fonksiyonuna bu pointerýn adresini, dosya adýný ve tipini yolluyoruz.
@@ -151,7 +208,11 @@ void Instructions(int* userInput)
 	SetConsoleTextColor(PURPLE);
 	printf("%s", "   - Tum kelimeler\n");
 	SetConsoleTextColor(GREEN);
-	printf("%s", "4. Terminate");
+	printf("%s", "4. RandomWord");
+	SetConsoleTextColor(PURPLE);
+	printf("%s", "   - Rastgele Kelime\n");
+	SetConsoleTextColor(GREEN);
+	printf("%s", "5. Terminate");
 	SetConsoleTextColor(PURPLE);
 	printf("%s", "   - Sonlandir.\n");
 	SetConsoleTextColor(EX_WHITE);
@@ -163,13 +224,13 @@ void Instructions(int* userInput)
 
 
 void Execute() {
-
+	srand(time(NULL));
 	SetConsoleTextColor(LIGHT_YELLOW);
 	printf("%s\n", "WELCOME TO THE WORDY!!!");
 	int userInput = 0;
 	char word[15];
 	int val;
-	while (4 != userInput)
+	while (5 != userInput)
 	{
 		Instructions(&userInput);
 		switch (userInput)
@@ -192,6 +253,9 @@ void Execute() {
 			userInput = 0;
 			break;
 		case 4:
+			RandomManager();
+			break;
+		case 5:
 			SetConsoleTextColor(4);
 			printf("%s", "\nSee you again./Gorusuruz.\n");
 			SetConsoleTextColor(WHITE);
