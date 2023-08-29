@@ -71,7 +71,7 @@ void RandomManager() {
 		return 1; // Programý hata kodu ile sonlandýr
 	}
 
-	char line[100]; // Bir satýrýn maksimum uzunluðunu belirtin
+	char line[103]; // Bir satýrýn maksimum uzunluðunu belirtin
 	while (counter < wordIndex) {
 		fgets(line, sizeof(line), fp);
 		printf("%d - %s", ++counter, line);
@@ -115,11 +115,17 @@ void AddWord() { // KELÝME GÝRÝLÝRKEN BOÞLUK BIRAKINCA PROGRAM PATLIYOR
 		puts("\nFile could not be opened./\\Dosya acilamadi.");
 	}
 	else { // Dosya açýldý 
-		char newWordEnglish[15];
-		char newWordTurkish[15];
+		char newWordEnglish[50];
+		char newWordTurkish[50];
 		printf("\n%s", "Enter the english word first and then the turkish translate of it.\n");
 		SetConsoleTextColor(YELLOW);
-		scanf_s("%s %s", newWordEnglish, _countof(newWordEnglish), newWordTurkish, _countof(newWordTurkish)); // scanf_s hatasýz kullanýmý
+		//scanf_s("%s %s", newWordEnglish, _countof(newWordEnglish), newWordTurkish, _countof(newWordTurkish));
+		//scanf_s("%s %s", newWordEnglish, _countof(newWordEnglish), newWordTurkish, _countof(newWordTurkish));
+		scanf_s(" %[^\n]s", newWordEnglish,_countof(newWordEnglish));
+		scanf_s(" %[^\n]s", newWordTurkish, _countof(newWordTurkish));
+
+		//gets(newWordEnglish);
+		//gets(newWordTurkish);	// scanf_s hatasýz kullanýmý
 
 		fprintf(filePointer, "%s - %s", newWordEnglish, newWordTurkish);
 		fprintf(filePointer, "\n");
@@ -134,8 +140,8 @@ void DeleteData(int val) {
 	FILE* temp;
 	errno_t err = fopen_s(&temp,"temp.txt", "w+");  //r+ modunda dosya açýldý çünkü baþtan sona bakýlýp silinmek istenen kelime bulunacak ve üzerine boþluk yazýlacak.
 	errno_t err2 = fopen_s(&fp, "Wordy.txt", "r+");
-	char line[100];
-	char tLine[100];
+	char line[103];
+	char tLine[103];
 	int counter = 0, i = 0;
 	if (err != 0 || err2 != 0) {
 		SetConsoleTextColor(RED);
@@ -228,7 +234,6 @@ void Execute() {
 	SetConsoleTextColor(LIGHT_YELLOW);
 	printf("%s\n", "WELCOME TO THE WORDY!!!");
 	int userInput = 0;
-	char word[15];
 	int val;
 	while (5 != userInput)
 	{

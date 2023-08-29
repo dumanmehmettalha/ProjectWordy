@@ -42,3 +42,4 @@ Arbitrary - GeliŸigzel
 Worsen - K”tleŸmek
 Harnesses - Donanm
 Preposition - Edat
+hot - scak
