@@ -23,59 +23,33 @@ void SetConsoleTextColor(int color) {
 	SetConsoleTextAttribute(hConsole, color);
 }
 
-int RandomNumber() {
-	int totalWord = TotalWordNumber();
-	int randomNumbers[10] = { 42, 17, 85, 63, 29, 56, 91, 12, 74, 38 };
-	int random = rand() & 9;
-	int randomIndex = 0;
-	randomIndex = randomNumbers[random] * randomNumbers[random];
-	randomIndex = randomIndex * (random + 1);
-	randomIndex = randomIndex - 143;
-	randomIndex = (random + 1) * randomNumbers[random] * 12;
-	randomIndex = randomIndex % totalWord;
-	//int randomIndex = (randomNumbers[random] * 22);
-	//randomIndex = randomIndex / 654;
-	//randomIndex = randomIndex + 222222222;
-	//randomIndex = randomIndex % totalWord;
-	//randomIndex += 1;
-	printf("random : %d randomIndex : %d \n", random, randomIndex);
-	return randomIndex;
-}
-
-int TotalWordNumber() {
+void RandomManager(unsigned int* state) {
+	// RANDOM NUMBER PART
+	int totalWord = ShowFile(0);
+	unsigned int x = *state;
+	x ^= x << 13;
+	x ^= x >> 17;
+	x ^= x << 5;
+	*state = x;
+	x = (x) % totalWord;
+	int wordIndex = x;
+	// SHOWING RANDOM WORD TO USER
 	FILE* fp;
 	int counter = 0;
 	SetConsoleTextColor(TURKUAZ);
-	errno_t err = fopen_s(&fp, "Wordy.txt", "r"); // Okunacak dosyanýn adýný doðru þekilde belirtin
+	errno_t err = fopen_s(&fp, "Wordy.txt", "r");
 	if (err != 0) {
 		printf("%s", "\nFile could not be opened.");
-		return 1; // Programý hata kodu ile sonlandýr
+		return; // Programý hata kodu ile sonlandýr
 	}
 
-	char line[100]; // Bir satýrýn maksimum uzunluðunu belirtin
-	while (fgets(line, sizeof(line), fp) != NULL) {
-		++counter;
-	}
-	fclose(fp);
-	return counter;
-}
-
-void RandomManager() {
-	int wordIndex = RandomNumber();
-	FILE* fp;
-	int counter = 0;
-	SetConsoleTextColor(TURKUAZ);
-	errno_t err = fopen_s(&fp, "Wordy.txt", "r"); // Okunacak dosyanýn adýný doðru þekilde belirtin
-	if (err != 0) {
-		printf("%s", "\nFile could not be opened.");
-		return 1; // Programý hata kodu ile sonlandýr
-	}
-
-	char line[103]; // Bir satýrýn maksimum uzunluðunu belirtin
+	char line[103];
 	while (counter < wordIndex) {
 		fgets(line, sizeof(line), fp);
-		printf("%d - %s", ++counter, line);
+		++counter;
+		//printf("%d - %s", ++counter, line);
 	}
+	printf("%d - %s", counter, line);
 	fclose(fp);
 }
 
@@ -106,11 +80,11 @@ void HideTheFile() {
 	//printf("File hidden successfully.\n");
 }
 
-void AddWord() { // KELÝME GÝRÝLÝRKEN BOÞLUK BIRAKINCA PROGRAM PATLIYOR
+void AddWord() { 
 
-	FILE* filePointer = NULL; // Dosya structýndan pointer oluþturuyoruz ve initialize edioruz. 
-	fopen_s(&filePointer, "Wordy.txt", "a+"); // fopen fonksiyonuna bu pointerýn adresini, dosya adýný ve tipini yolluyoruz.
-	if (filePointer == NULL) {	// Memoryde boþ yer olmadýðý bir anda dosya açýlamayabilir. Ve pointer hata olarak NULL döndürür. Kullanýcýya bunu söylemek ve bazý fonksiyonlarýn kullanýmýnda hata almamak için bu condition kontrol edilir.
+	FILE* filePointer = NULL; 
+	fopen_s(&filePointer, "Wordy.txt", "a+"); 
+	if (filePointer == NULL) {	
 		SetConsoleTextColor(RED);
 		puts("\nFile could not be opened./\\Dosya acilamadi.");
 	}
@@ -124,13 +98,9 @@ void AddWord() { // KELÝME GÝRÝLÝRKEN BOÞLUK BIRAKINCA PROGRAM PATLIYOR
 		scanf_s(" %[^\n]s", newWordEnglish,_countof(newWordEnglish));
 		scanf_s(" %[^\n]s", newWordTurkish, _countof(newWordTurkish));
 
-		//gets(newWordEnglish);
-		//gets(newWordTurkish);	// scanf_s hatasýz kullanýmý
-
 		fprintf(filePointer, "%s - %s", newWordEnglish, newWordTurkish);
 		fprintf(filePointer, "\n");
 		fclose(filePointer);
-	
 	}
 }
 
@@ -145,7 +115,7 @@ void DeleteData(int val) {
 	int counter = 0, i = 0;
 	if (err != 0 || err2 != 0) {
 		SetConsoleTextColor(RED);
-		printf("%s", "\nFile could not be opened.");
+		printf("%s", "\nFile could not be opened.\n");
 		return;
 	}
 
@@ -153,11 +123,8 @@ void DeleteData(int val) {
 		counter++;
 		if (counter != val) {
 			fprintf(temp, "%s", line);
-
 		}
-
 	}
-	SetConsoleTextColor(7);
 	SetConsoleTextColor(RED);
 	printf("The line you have selected is deleted.\n");
 	fclose(fp);
@@ -166,7 +133,7 @@ void DeleteData(int val) {
 	rename("temp.txt", "Wordy.txt");
 }
 
-void ShowFile() {
+int ShowFile(int userInput) {
 
 	FILE* fp;
 	int counter = 0;
@@ -178,29 +145,29 @@ void ShowFile() {
 	}
 
 	char line[100]; // Bir satýrýn maksimum uzunluðunu belirtin
-	while (fgets(line, sizeof(line), fp) != NULL) {
-		printf("%d - %s", ++counter,line);
+	if (3 == userInput)
+	{
+		while (fgets(line, sizeof(line), fp) != NULL) 
+		{
+			printf("%d - %s", ++counter,line);
+		}
+		fclose(fp);
+		return 0;
 	}
-	fclose(fp);
+	else
+	{
+		while (fgets(line, sizeof(line), fp) != NULL) 
+		{
+			++counter;
+		}
+		fclose(fp);
+		return counter;
+	}
 }
 
 
 void Instructions(int* userInput)
 {	
-	//SetConsoleTextColor(2);
-	//printf("%s", "If you want to enter a word to program press 1,\n");
-	//printf("%s", "Bir kelime eklemek istiyorsaniz 1 giriniz,\n\n");
-	//printf("%s", "If you want to delete a word from program press 2,\n");
-	//printf("%s", "Bir kelime silmek istiyorsaniz 2 giriniz, \n\n");
-	//printf("%s", "If you want to see all of the words press 3,\n");
-	//printf("%s", "Programdaki tum kelimeleri gormek istiyorsaniz 3 giriniz,\n\n");
-	//printf("%s", "If you want to terminate the program press 4\n");
-	//printf("%s", "Programi sonlandirmak istiyorsaniz 4 giriniz, \n\n");
-	//SetConsoleTextColor(7);
-	//printf("Choice/Secim: ");
-	//scanf_s("%d", userInput);
-
-
 	SetConsoleTextColor(GREEN);
 	printf("%s", "1. Add word");
 	SetConsoleTextColor(PURPLE);
@@ -230,7 +197,9 @@ void Instructions(int* userInput)
 
 
 void Execute() {
-	srand(time(NULL));
+	unsigned int seed = (unsigned int)time(NULL);
+	unsigned int state = seed;
+
 	SetConsoleTextColor(LIGHT_YELLOW);
 	printf("%s\n", "WELCOME TO THE WORDY!!!");
 	int userInput = 0;
@@ -253,12 +222,13 @@ void Execute() {
 			break;
 		case 3:
 			puts("");
-			ShowFile();
+			ShowFile(userInput);
 			puts("");
 			userInput = 0;
 			break;
 		case 4:
-			RandomManager();
+			RandomManager(&state);
+			userInput = 0;
 			break;
 		case 5:
 			SetConsoleTextColor(4);
@@ -269,7 +239,7 @@ void Execute() {
 			SetConsoleTextColor(4);
 			printf("%s", "\nInvalid Choise!/\\Hatali Secim!\n");
 			SetConsoleTextColor(WHITE);
-			userInput = 4;
+			userInput = 5;
 			break;
 		}
 	}
