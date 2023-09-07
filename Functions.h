@@ -204,43 +204,55 @@ void Execute() {
 	printf("%s\n", "WELCOME TO THE WORDY!!!");
 	int userInput = 0;
 	int val;
+	int flag=0;
 	while (5 != userInput)
 	{
-		Instructions(&userInput);
-		switch (userInput)
-		{
-		case 1:
-			AddWord();
-			userInput = 0;
-			break;
-		case 2:
-			SetConsoleTextColor(3);
-			printf("Enter line number you want to delete:  ");
-			scanf_s("%d", &val);
-			DeleteData(val);
-			userInput = 0;
-			break;
-		case 3:
-			puts("");
-			ShowFile(userInput);
-			puts("");
-			userInput = 0;
-			break;
-		case 4:
+		if (4 == userInput) {
+			flag = 1;
+			Instructions(&userInput);
+			switch (userInput)
+			{
+			case 1:
+				AddWord();
+				userInput = 4;
+				break;
+			case 2:
+				SetConsoleTextColor(3);
+				printf("Enter line number you want to delete:  ");
+				scanf_s("%d", &val);
+				DeleteData(val);
+				userInput = 4;
+				break;
+			case 3:
+				puts("");
+				ShowFile(userInput);
+				puts("");
+				userInput = 4;
+				break;
+			case 4:
+				RandomManager(&state);
+				userInput = 4;
+				break;
+			case 5:
+				SetConsoleTextColor(4);
+				printf("%s", "\nSee you again./Gorusuruz.\n");
+				SetConsoleTextColor(WHITE);
+				break;
+			default:
+				SetConsoleTextColor(4);
+				printf("%s", "\nInvalid Choise!/\\Hatali Secim!\n");
+				SetConsoleTextColor(WHITE);
+				userInput = 5;
+				break;
+			}
+			
+		}
+		else if(flag!=1){
 			RandomManager(&state);
-			userInput = 0;
-			break;
-		case 5:
-			SetConsoleTextColor(4);
-			printf("%s", "\nSee you again./Gorusuruz.\n");
-			SetConsoleTextColor(WHITE);
-			break;
-		default:
-			SetConsoleTextColor(4);
-			printf("%s", "\nInvalid Choise!/\\Hatali Secim!\n");
-			SetConsoleTextColor(WHITE);
-			userInput = 5;
-			break;
+			SetConsoleTextColor(BLUE);
+			printf("%s", "\nEnter 4 to return main menu./ Ana menuye donmek icin 4 e basin.\n");
+			SetConsoleTextColor(LIGHT_BLUE);
+			scanf_s("%d", &userInput);
 		}
 	}
 	HideTheFile();

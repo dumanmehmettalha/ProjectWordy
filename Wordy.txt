@@ -51,3 +51,4 @@ Soccer - Futbol
 Ball - Top
 Coffee - Kahve
 Try - Denemek
+shape - Ÿekil
