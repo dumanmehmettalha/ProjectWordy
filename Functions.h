@@ -230,9 +230,10 @@ void Execute() {
 				userInput = 4;
 				break;
 			case 4:
-				RandomManager(&state);
-				userInput = 4;
-				break;
+				//RandomManager(&state);
+				userInput = 3;
+				flag = 0;
+				continue;
 			case 5:
 				SetConsoleTextColor(4);
 				printf("%s", "\nSee you again./Gorusuruz.\n");
@@ -252,7 +253,7 @@ void Execute() {
 			SetConsoleTextColor(BLUE);
 			printf("%s", "\nEnter 4 to return main menu./ Ana menuye donmek icin 4 e basin.\n");
 			SetConsoleTextColor(LIGHT_BLUE);
-			scanf_s("%d", &userInput);
+			scanf_s("%d", userInput);
 		}
 	}
 	HideTheFile();
