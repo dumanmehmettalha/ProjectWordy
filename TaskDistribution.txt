@@ -1,5 +1,0 @@
-
-Dosyadan rastgele kelime seçip konsol ekranına yazdırma ve çevirisini kullanıcının girmesi,
-eğer doğru ise +1 puan yanlış ise -1 puan -1 olunca oyun bitsin istediği zaman da çıkabilsin - To be continued
-
-Bilgisayar açıldığında ekranda rastgele bir ingilizce kelime ve anlamını göster - To be continued
