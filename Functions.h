@@ -204,7 +204,7 @@ void Execute() {
 	printf("%s\n", "WELCOME TO THE WORDY!!!");
 	int userInput = 0;
 	int val;
-	int flag=0;
+	int flag = 0;
 	while (5 != userInput)
 	{
 		if (4 == userInput) {
@@ -246,15 +246,21 @@ void Execute() {
 				userInput = 5;
 				break;
 			}
-			
 		}
 		else if(flag!=1){
 			RandomManager(&state);
 			SetConsoleTextColor(BLUE);
 			printf("%s", "\nEnter 4 to return main menu./ Ana menuye donmek icin 4 e basin.\n");
+			printf("%s", "Enter any decimal number to continue. / Devam etmek icin herhangi bir rakam giriniz.\n");
 			SetConsoleTextColor(LIGHT_BLUE);
-			scanf_s("%d", userInput);
+			if (scanf_s("%d", &userInput) != 1)
+			{
+				printf_s("Invalid input. /\\Hatali Giris !\n");
+				break;
+			}
+			//scanf_s("%d", &userInput);
 		}
+
 	}
 	HideTheFile();
 }

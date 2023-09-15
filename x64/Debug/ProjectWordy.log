@@ -1,11 +1,10 @@
 ﻿  EntryPoint.c
-C:\Users\duman\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(28,18): warning C4013: 'ShowFile' undefined; assuming extern returning int
-C:\Users\duman\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(64,11): warning C4098: 'HideTheFile': 'void' function returning a value
-C:\Users\duman\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(75,11): warning C4098: 'HideTheFile': 'void' function returning a value
-C:\Users\duman\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(98,11): warning C4477: 'scanf_s' : format string '%[^\n]' requires an argument of type 'unsigned int', but variadic argument 2 has type 'unsigned __int64'
-C:\Users\duman\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(98,11): message : this argument is used as a buffer size
-C:\Users\duman\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(99,11): warning C4477: 'scanf_s' : format string '%[^\n]' requires an argument of type 'unsigned int', but variadic argument 2 has type 'unsigned __int64'
-C:\Users\duman\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(99,11): message : this argument is used as a buffer size
-C:\Users\duman\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(114,7): warning C4101: 'tLine': unreferenced local variable
-C:\Users\duman\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(256,12): warning C4477: 'scanf_s' : format string '%d' requires an argument of type 'int *', but variadic argument 1 has type 'int'
-  ProjectWordy.vcxproj -> C:\Users\duman\OneDrive\Belgeler\GitHub\ProjectWordy\x64\Debug\ProjectWordy.exe
+C:\Users\kocam\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(28,18): warning C4013: 'ShowFile' undefined; assuming extern returning int
+C:\Users\kocam\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(64,11): warning C4098: 'HideTheFile': 'void' function returning a value
+C:\Users\kocam\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(75,11): warning C4098: 'HideTheFile': 'void' function returning a value
+C:\Users\kocam\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(98,11): warning C4477: 'scanf_s' : format string '%[^\n]' requires an argument of type 'unsigned int', but variadic argument 2 has type 'unsigned __int64'
+C:\Users\kocam\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(98,11): message : this argument is used as a buffer size
+C:\Users\kocam\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(99,11): warning C4477: 'scanf_s' : format string '%[^\n]' requires an argument of type 'unsigned int', but variadic argument 2 has type 'unsigned __int64'
+C:\Users\kocam\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(99,11): message : this argument is used as a buffer size
+C:\Users\kocam\OneDrive\Belgeler\GitHub\ProjectWordy\Functions.h(114,7): warning C4101: 'tLine': unreferenced local variable
+  ProjectWordy.vcxproj -> C:\Users\kocam\OneDrive\Belgeler\GitHub\ProjectWordy\x64\Debug\ProjectWordy.exe
