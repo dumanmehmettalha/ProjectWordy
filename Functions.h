@@ -26,31 +26,39 @@ void SetConsoleTextColor(int color) {
 void RandomManager(unsigned int* state) {
 	// RANDOM NUMBER PART
 	int totalWord = ShowFile(0);
-	unsigned int x = *state;
-	x ^= x << 13;
-	x ^= x >> 17;
-	x ^= x << 5;
-	*state = x;
-	x = (x) % totalWord;
-	int wordIndex = x;
-	// SHOWING RANDOM WORD TO USER
-	FILE* fp;
-	int counter = 0;
-	SetConsoleTextColor(TURKUAZ);
-	errno_t err = fopen_s(&fp, "Wordy.txt", "r");
-	if (err != 0) {
-		printf("%s", "\nFile could not be opened.");
-		return; // Programý hata kodu ile sonlandýr
+	if (0 == totalWord)
+	{
+		printf("\n%s\n", "There is no word to show.");
+		return;
 	}
+	else
+	{
+		unsigned int x = *state;
+		x ^= x << 13;
+		x ^= x >> 17;
+		x ^= x << 5;
+		*state = x;
+		x = (x) % totalWord;
+		int wordIndex = x;
+		// SHOWING RANDOM WORD TO USER
+		FILE* fp;
+		int counter = 0;
+		SetConsoleTextColor(TURKUAZ);
+		errno_t err = fopen_s(&fp, "Wordy.txt", "r");
+		if (err != 0) {
+			printf("%s", "\nFile could not be opened.");
+			return; // Programý hata kodu ile sonlandýr
+		}
 
-	char line[103];
-	while (counter < wordIndex) {
-		fgets(line, sizeof(line), fp);
-		++counter;
-		//printf("%d - %s", ++counter, line);
+		char line[103];
+		while (counter <= wordIndex) {
+			fgets(line, sizeof(line), fp);
+			++counter;
+			//printf("%d - %s", ++counter, line);
+		}
+		printf("%d - %s", counter, line);
+		fclose(fp);
 	}
-	printf("%d - %s", counter, line);
-	fclose(fp);
 }
 
 void HideTheFile() {
@@ -141,7 +149,7 @@ int ShowFile(int userInput) {
 	errno_t err = fopen_s(&fp, "Wordy.txt", "r"); // Okunacak dosyanýn adýný doðru þekilde belirtin
 	if (err != 0) {
 		printf("%s", "\nFile could not be opened.");
-		return 1; // Programý hata kodu ile sonlandýr
+		return 0; // Programý hata kodu ile sonlandýr
 	}
 
 	char line[100]; // Bir satýrýn maksimum uzunluðunu belirtin
@@ -194,9 +202,24 @@ void Instructions(int* userInput)
 	scanf_s("%d", userInput);
 }
 
+int FileInit() {
+	int totalWord = ShowFile(0);
+	FILE* fp;
+	errno_t err = fopen_s(&fp, "Wordy.txt", "a+"); 
+	if (err != 0) {
+		printf("%s", "\nFile could not be opened.\n");
+		return 1;
+	}
+	else {
+		fclose(fp);
+		return totalWord;
+	}
+}
+
 
 
 void Execute() {
+	FileInit();
 	unsigned int seed = (unsigned int)time(NULL);
 	unsigned int state = seed;
 
@@ -205,6 +228,11 @@ void Execute() {
 	int userInput = 0;
 	int val;
 	int flag = 0;
+	int initialize = ShowFile(0);
+	if (initialize <= 0)
+	{
+		userInput = 4;
+	}
 	while (5 != userInput)
 	{
 		if (4 == userInput) {
@@ -249,9 +277,12 @@ void Execute() {
 		}
 		else if(flag!=1){
 			RandomManager(&state);
-			SetConsoleTextColor(BLUE);
+			SetConsoleTextColor(RED);
 			printf("%s", "\nEnter 4 to return main menu./ Ana menuye donmek icin 4 e basin.\n");
+			SetConsoleTextColor(GREEN);
 			printf("%s", "Enter any decimal number to continue. / Devam etmek icin herhangi bir rakam giriniz.\n");
+			SetConsoleTextColor(BLUE);
+			printf("%s", "Enter 5 to terminate. / Sonlandirmak icin 5 e basin.\n");
 			SetConsoleTextColor(LIGHT_BLUE);
 			if (scanf_s("%d", &userInput) != 1)
 			{
